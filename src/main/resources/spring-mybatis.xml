@@ -6,23 +6,25 @@
 
     <!-- 定义数据源Bean -->
     <!-- Druid -->
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-        <property name="url" value="jdbc:mysql://localhost:3306/test" />
-        <property name="username" value="root" />
-        <property name="password" value="sa" />
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${db.driver}"></property>
+        <property name="url" value="${db.url}"></property>
+        <property name="username" value="${db.username}"></property>
+        <property name="password" value="${db.password}"></property>
     </bean>
 
     <!-- 注册SqlSessionFactoryBean -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <!-- 自动扫描mappers.xml文件 -->
-        <property name="mapperLocations" value="classpath:com/Marcello/dao/*.xml" />
+        <!--<property name="mapperLocations" value="classpath:com/marcello/dao" />-->
         <property name="configLocation" value="classpath:mybatis-config.xml"></property>
     </bean>
     
     <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.Marcello.dao" />
+        <property name="basePackage" value="com.marcello.dao" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
 </beans>

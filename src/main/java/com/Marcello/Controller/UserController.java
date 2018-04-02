@@ -1,30 +1,34 @@
-package com.Marcello.Controller;
+package com.marcello.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.marcello.entity.Std;
+import com.marcello.service.StdService;
+import com.marcello.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.Marcello.Entity.User;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * �û�������
- */
+ * @Description
+ * @Author mcsb
+ * CreateDate 2018/3/29$ 19:41$
+ **/
 @Controller
+@RequestMapping("/user")
 public class UserController {
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView login(@RequestParam("managerId") String managerId, HttpServletRequest request, HttpServletResponse response)throws Exception {
-             User user=new User();
-             user.setManagerId(managerId);
-            ModelAndView mav = new ModelAndView();
-            mav.addObject("user",user);
-            mav.setViewName("index");
-            return mav;
-        }
-
+    @Autowired
+    private UserService userService;
+    @RequestMapping("/getUserList")
+    public @ResponseBody Std getUserList(String stdNum,String stdSex,String stdAge,String stdTel){
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("stdNum",stdNum);
+        map.put("stdSex",stdSex);
+        map.put("stdAge",stdAge);
+        map.put("stdTel",stdTel);
+        Std std= UserService.getUserList(map);
+        return std;
+    }
 }
